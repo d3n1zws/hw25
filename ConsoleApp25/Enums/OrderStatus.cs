@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace ConsoleApp25.Enums;
 
-namespace ConsoleApp25.Enums
+public enum OrderStatus
 {
-    internal class OrderStatus
-    {
-    }
+    Pending,
+    Confirmed,
+    Shipped,
+    Delivered,
+    Cancelled
 }
