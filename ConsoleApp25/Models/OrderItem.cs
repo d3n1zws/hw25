@@ -6,7 +6,7 @@ namespace ConsoleApp25.Models;
 
 public class OrderItem
 {
-    public OrderItem(string product, int quantity, decimal unitPrice)
+    public OrderItem(Product product, int quantity, decimal unitPrice)
     {
         Product = product;
         Quantity = quantity;
@@ -14,7 +14,7 @@ public class OrderItem
         TotalPrice = quantity * unitPrice;
     }
 
-    public string Product { get; set; } = null!;
+    public Product Product { get; set; } = null!;
 
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }

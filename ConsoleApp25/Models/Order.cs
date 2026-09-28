@@ -1,29 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ConsoleApp25.Models;
 
 using ConsoleApp25.Enums;
+using ConsoleApp25.Interfaces;
 using System.Xml.Linq;
 
-public class Order
+public class Order : IEntity
 {
     static int id = 0;
     public int Id { get; set; }
     public Customer Customer { get; set; }
     public List<OrderItem> Items = new List<OrderItem>();
-    public List<Product> Products = new List<Product>();
     public decimal TotalPrice { get; set; }
     public OrderStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsDeleted { get; set; }
-    public bool TryRemoveFromStock(string product, int quantity, out decimal totalPrice)
+    public Order(Customer customer, OrderStatus status)
     {
-        OrderItem? item = Items.Find(x => x.Product == product && x.Quantity == quantity && x.TotalPrice == totalPrice);
+        Customer = customer;
+        Status = status;
+        CreatedAt = DateTime.Now;
+        IsDeleted = false;
+        Id = ++id;
+    }
+    public bool TryRemoveFromStock(Product product, int quantity, out decimal totalPrice)
+    {
+        OrderItem? item = Items.Find(x => x.Product == product && x.Quantity == quantity);
         if (item == null)
         {
+            totalPrice = 0;
             return false;
         }
+        totalPrice = item.TotalPrice;
         Items.Remove(item);
         return true;
     }
@@ -33,17 +44,25 @@ public class Order
         foreach (OrderItem item in items)
         {
             item.UnitPrice = (100 - percentage) * item.UnitPrice / 100;
-            item.TotalPrice = (100 - percentage) * item.TotalPrice / 100;
         }
     }
-    public Product SearchProduct(string s)
+    public string GetInfo()
     {
-        s = s.ToLower();
-        Product? product = Products.Find(x => x.Name.ToLower() == s || x.Description.ToLower() == s || x.Category.ToLower() == s);
-        if (product == null)
+        var sb = new StringBuilder();
+        sb.AppendLine($"Order Id: {Id}");
+        if (Customer != null)
         {
-            throw new Exception("Product tapilmadi:(");
+            sb.AppendLine($"Customer: {Customer.FirstName} {Customer.LastName} (Id: {Customer.Id})");
         }
-        return (Product)product;
+        sb.AppendLine($"Status: {Status}");
+        sb.AppendLine($"Created At: {CreatedAt}");
+        sb.AppendLine($"Is Deleted: {IsDeleted}");
+        sb.AppendLine($"Total Price: {TotalPrice:C}");
+        sb.AppendLine($"Items ({Items.Count}):");
+        foreach (var item in Items)
+        {
+            sb.AppendLine($" - {item.Product?.Name} x{item.Quantity} @ {item.UnitPrice:C} = {item.TotalPrice:C}");
+        }
+        return sb.ToString();
     }
 }

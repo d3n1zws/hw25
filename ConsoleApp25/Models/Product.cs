@@ -1,8 +1,9 @@
-﻿using System;
+﻿using ConsoleApp25.Interfaces;
+using System;
 
 namespace ConsoleApp25.Models;
 
-public class Product
+public class Product : IEntity
 {
     static int id = 0;
 
@@ -26,7 +27,7 @@ public class Product
     public string Category { get; set; } = null!;
     public bool IsDeleted { get; set; }
     public DateTime CreatedAt { get; set; }
-    public void GetProductInfo()
+    public virtual void GetProductInfo()
     {
         Console.WriteLine($"Id : {Id}, Name : {Name}, Description : {Description}, Price : {Price}, Stock : {Stock}, Category : {Category}, Is Deleted : {IsDeleted}, Created At : {CreatedAt}");
     }

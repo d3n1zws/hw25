@@ -6,14 +6,14 @@ public class Customer
 {
     static int id = 0;
 
-    public Customer(string firstName, string lastName, string email, string phone, bool isDeleted, DateTime createdAt)
+    public Customer(string firstName, string lastName, string email, string phone, bool isDeleted)
     {
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         Phone = phone;
         IsDeleted = isDeleted;
-        CreatedAt = createdAt;
+        CreatedAt = DateTime.Now;
         Id = id++;
         FullName = firstName + ' ' + lastName;
     }

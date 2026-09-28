@@ -12,5 +12,9 @@ public class ClothingProduct : Product
     public string Size { get; set; } = null!;
     public string Material { get; set; } = null!;
     public string Gender { get; set; } = null!;
+    public override void GetProductInfo()
+    {
+        Console.WriteLine($"Id : {Id}, Name : {Name}, Description : {Description}, Price : {Price}, Stock : {Stock}, Category : {Category}, Is Deleted : {IsDeleted}, Created At : {CreatedAt}, Size : {Size}, Material : {Material}, Gender : {Gender}");
+    }
 
 }
